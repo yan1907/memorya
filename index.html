@@ -2,34 +2,33 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Juego de Memoria Multinievel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego de Memoria Multinivel</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="game-container">
-        <div id="login-screen">
-            <h1>Juego de Memoria</h1>
-            <input type="text" id="player-name" placeholder="Ingresa tu nombre">
-            <button id="start-game">Comenzar Juego</button>
-        </div>
-
-        <div id="game-screen" class="hidden">
-            <div id="game-header">
-                <span id="player-info">Jugador: <span id="display-name"></span></span>
-                <span id="level-info">Nivel: <span id="current-level">1</span></span>
-                <span id="lives-info">Vidas: <span id="lives-count">3</span></span>
-                <span id="points-info">Puntos: <span id="points-count">0</span></span>
+    <div class="game-container">
+        <div class="header">
+            <div class="stats">
+                <span id="lives">❤️❤️❤️</span>
+                <span id="level">Nivel: 1</span>
+                <span id="score">Puntos: 0</span>
             </div>
-
-            <div id="game-area"></div>
-
-            <div id="game-controls">
-                <button id="next-level" class="hidden">Siguiente Nivel</button>
-                <button id="restart-game" class="hidden">Reiniciar Juego</button>
-            </div>
+            <div class="timer" id="timer">Tiempo: 3600</div>
         </div>
+        
+        <div class="level-container" id="level-container">
+            <!-- Aquí se cargarán los diferentes niveles -->
+        </div>
+        
+        <div class="controls">
+            <button id="hint-btn">Pista</button>
+            <button id="restart-btn">Reiniciar</button>
+        </div>
+        
+        <div class="message" id="message"></div>
     </div>
-
-    <script src="game.js"></script>
+    
+    <script src="script.js"></script>
 </body>
 </html>
