@@ -2,7 +2,7 @@
 let currentLevel = 1;
 let lives = 3;
 let score = 0;
-let timeLeft = 60;
+let timeLeft = 3600;
 let timer;
 let currentLevelData = {};
 let hintsUsed = 0;
@@ -131,7 +131,7 @@ function initGame() {
     currentLevel = 1;
     lives = 3;
     score = 0;
-    timeLeft = 60;
+    timeLeft = 3600;
     hintsUsed = 0;
     
     updateUI();
