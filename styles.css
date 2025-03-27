@@ -1,66 +1,325 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f8ff;
+    margin: 0;
+    padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    margin: 0;
-    background-color: #f0f0f0;
+    min-height: 100vh;
 }
 
-#game-container {
-    width: 80%;
-    max-width: 800px;
+.game-container {
     background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 800px;
     padding: 20px;
     text-align: center;
 }
 
-#login-screen, #game-screen {
+.header {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 20px;
     align-items: center;
 }
 
-#player-name {
-    margin: 20px 0;
-    padding: 10px;
-    width: 200px;
-}
-
-#game-header {
+.stats {
     display: flex;
-    justify-content: space-between;
-    width: 100%;
-    margin-bottom: 20px;
+    gap: 20px;
 }
 
-.hidden {
-    display: none !important;
+.timer {
+    font-weight: bold;
+    font-size: 1.2em;
+    color: #e74c3c;
 }
 
-/* Estilos específicos para diferentes niveles se agregarán dinámicamente */
-#game-area {
+.level-container {
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+    padding: 20px;
+    border: 2px dashed #3498db;
+    border-radius: 10px;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #3498db;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+.message {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    min-height: 24px;
+}
+
+/* Estilos para el nivel de sílabas */
+.syllable-level {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 10px;
 }
 
-.game-button {
-    padding: 10px;
-    margin: 5px;
+.syllable-option {
+    padding: 10px 15px;
+    background-color: #f1c40f;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.syllable-option:hover {
+    transform: scale(1.05);
+}
+
+.word-display {
+    font-size: 2em;
+    margin-bottom: 20px;
+    letter-spacing: 5px;
+}
+
+/* Estilos para el nivel de memoria (cartas) */
+.memory-level {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    width: 100%;
+}
+
+.card {
+    aspect-ratio: 1;
+    background-color: #3498db;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2em;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.3s, background-color 0.3s;
+}
+
+.card:hover {
+    transform: scale(0.95);
+}
+
+.card.flipped {
+    background-color: #f1c40f;
+    color: #2c3e50;
+    transform: rotateY(180deg);
+}
+
+.card.matched {
+    background-color: #2ecc71;
+    cursor: default;
+}
+
+/* Estilos para el nivel de secuencia de colores */
+.sequence-level {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.color-options {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.color-option {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.color-option:hover {
+    transform: scale(1.1);
+}
+
+.sequence-display {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.sequence-item {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+}
+
+/* Estilos para el nivel de palabras desordenadas */
+.word-scramble {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.letter-options {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.letter-option {
+    padding: 10px 15px;
+    background-color: #9b59b6;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.5em;
+}
+
+.word-display-scramble {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 20px;
+}
+
+.word-slot {
+    width: 40px;
+    height: 50px;
+    border-bottom: 3px solid #2c3e50;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.8em;
+}
+
+/* Estilos para el nivel de pupiletras */
+.word-search {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 2px;
+    margin-bottom: 20px;
+}
+
+.word-search-cell {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ecf0f1;
     cursor: pointer;
 }
 
-.correct {
-    background-color: green;
+.word-search-cell.selected {
+    background-color: #f1c40f;
+}
+
+.word-search-cell.found {
+    background-color: #2ecc71;
+}
+
+.word-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.word-list-item {
+    padding: 5px 10px;
+    background-color: #3498db;
+    color: white;
+    border-radius: 5px;
+}
+
+.word-list-item.found {
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+
+/* Estilos para el nivel de puente */
+.bridge-level {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.bridge-row {
+    display: flex;
+    gap: 10px;
+}
+
+.bridge-tile {
+    width: 60px;
+    height: 60px;
+    background-color: #3498db;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+}
+
+.bridge-tile.safe {
+    background-color: #2ecc71;
+}
+
+.bridge-tile.danger {
+    background-color: #e74c3c;
+}
+
+.player {
+    width: 40px;
+    height: 40px;
+    background-color: #f1c40f;
+    border-radius: 50%;
+    position: absolute;
+    transition: transform 0.3s;
+}
+
+/* Estilos para mensajes de feedback */
+.success {
+    background-color: #2ecc71;
     color: white;
 }
 
-.incorrect {
-    background-color: red;
+.error {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.info {
+    background-color: #3498db;
     color: white;
 }
