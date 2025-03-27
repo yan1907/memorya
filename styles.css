@@ -323,3 +323,56 @@ button:hover {
     background-color: #3498db;
     color: white;
 }
+/* Estilos para el nuevo nivel 7 (sonidos) */
+.sound-level {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.sound-options {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.sound-option {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #3498db;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.sound-option:hover {
+    transform: scale(1.1);
+}
+
+.sound-option.active {
+    background-color: #f1c40f;
+    transform: scale(1.1);
+}
+
+/* Estilos para pistas */
+.hint-used {
+    border: 2px solid #2ecc71;
+    box-shadow: 0 0 10px #2ecc71;
+}
+
+.hint {
+    animation: hint-pulse 1s infinite;
+}
+
+@keyframes hint-pulse {
+    0% { box-shadow: 0 0 5px #f1c40f; }
+    50% { box-shadow: 0 0 20px #f1c40f; }
+    100% { box-shadow: 0 0 5px #f1c40f; }
+}
