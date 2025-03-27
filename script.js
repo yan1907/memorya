@@ -131,7 +131,7 @@ function initGame() {
     currentLevel = 1;
     lives = 3;
     score = 0;
-    timeLeft = 60;
+    timeLeft = 3600;
     hintsUsed = 0;
     
     updateUI();
