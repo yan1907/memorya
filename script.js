@@ -2,7 +2,7 @@
 let currentLevel = 1;
 let lives = 3;
 let score = 0;
-let timeLeft = 60;
+let timeLeft = 3600;
 let timer;
 let currentLevelData = {};
 let hintsUsed = 0;
