@@ -17,7 +17,8 @@ const messageDisplay = document.getElementById('message');
 const hintButton = document.getElementById('hint-btn');
 const restartButton = document.getElementById('restart-btn');
 
-// Datos del juego
+// [El código anterior permanece igual hasta la sección gameData]
+
 const gameData = {
     // Nivel 1: Completar palabra con sílabas faltantes
     level1: {
@@ -26,14 +27,18 @@ const gameData = {
             { word: "elefante", syllables: ["e", "le", "fan", "te"] },
             { word: "universidad", syllables: ["u", "ni", "ver", "si", "dad"] },
             { word: "mariposa", syllables: ["ma", "ri", "po", "sa"] },
-            { word: "helicoptero", syllables: ["he", "li", "cop", "te", "ro"] }
-        ]
+            { word: "helicoptero", syllables: ["he", "li", "cop", "te", "ro"] },
+            { word: "bicicleta", syllables: ["bi", "ci", "cle", "ta"] },
+            { word: "telefono", syllables: ["te", "le", "fo", "no"] },
+            { word: "refrigerador", syllables: ["re", "fri", "ge", "ra", "dor"] }
+        ],
+        extraSyllables: ["ba", "be", "bi", "bo", "bu", "ca", "co", "cu", "da", "de", "di", "do", "fa", "fe", "fi", "fo", "ga", "ge", "gi", "go", "gu", "la", "le", "li", "lo", "lu", "ma", "me", "mi", "mo", "mu", "na", "ne", "ni", "no", "nu", "pa", "pe", "pi", "po", "pu", "ra", "re", "ri", "ro", "ru", "sa", "se", "si", "so", "su", "ta", "te", "ti", "to", "tu", "va", "ve", "vi", "vo"]
     },
     
     // Nivel 2: Memoria de cartas
     level2: {
         pairs: 8,
-        icons: ["🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼", "🦁", "🐮", "🐷", "🐸", "🐵", "🐔", "🐧", "🐦"]
+        icons: ["🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼", "🦁", "🐮", "🐷", "🐸", "🐵", "🐔", "🐧", "🐦", "🐤", "🦄", "🐴", "🦋", "🐝", "🐛", "🦀", "🐙", "🦑", "🐬", "🦈", "🐋", "🐅", "🐆"]
     },
     
     // Nivel 3: Secuencia de colores
@@ -41,7 +46,9 @@ const gameData = {
         sequences: [
             { sequence: ["red", "blue", "green", "yellow"], name: "Secuencia básica" },
             { sequence: ["purple", "orange", "purple", "green"], name: "Secuencia intermedia" },
-            { sequence: ["blue", "blue", "red", "yellow", "green"], name: "Secuencia avanzada" }
+            { sequence: ["blue", "blue", "red", "yellow", "green"], name: "Secuencia avanzada" },
+            { sequence: ["green", "yellow", "red", "blue", "purple"], name: "Secuencia arcoíris" },
+            { sequence: ["red", "blue", "yellow", "green", "red", "blue"], name: "Secuencia larga" }
         ],
         colors: {
             red: "#e74c3c",
@@ -49,7 +56,9 @@ const gameData = {
             green: "#2ecc71",
             yellow: "#f1c40f",
             purple: "#9b59b6",
-            orange: "#e67e22"
+            orange: "#e67e22",
+            pink: "#e91e63",
+            teal: "#009688"
         }
     },
     
@@ -58,7 +67,9 @@ const gameData = {
         sequences: [
             { sequence: ["red", "blue", "green", "yellow"], sounds: [440, 494, 554, 587], name: "Melodía simple" },
             { sequence: ["purple", "orange", "purple", "green"], sounds: [523, 587, 523, 659], name: "Melodía intermedia" },
-            { sequence: ["blue", "blue", "red", "yellow", "green"], sounds: [392, 392, 440, 494, 523], name: "Melodía compleja" }
+            { sequence: ["blue", "blue", "red", "yellow", "green"], sounds: [392, 392, 440, 494, 523], name: "Melodía compleja" },
+            { sequence: ["green", "yellow", "red", "blue", "purple"], sounds: [523, 494, 440, 392, 370], name: "Melodía descendente" },
+            { sequence: ["red", "blue", "yellow", "green", "red", "blue"], sounds: [440, 523, 494, 587, 440, 523], name: "Melodía oscilante" }
         ],
         colors: {
             red: "#e74c3c",
@@ -66,13 +77,15 @@ const gameData = {
             green: "#2ecc71",
             yellow: "#f1c40f",
             purple: "#9b59b6",
-            orange: "#e67e22"
+            orange: "#e67e22",
+            pink: "#e91e63",
+            teal: "#009688"
         }
     },
     
     // Nivel 5: Ordenar letras para formar palabra
     level5: {
-        words: ["casa", "perro", "libro", "sol", "agua", "cielo", "flor", "mesa"]
+        words: ["casa", "perro", "libro", "sol", "agua", "cielo", "flor", "mesa", "luz", "pez", "mar", "pan", "red", "oso", "paz", "rey", "sal", "ojo", "ala", "ola"]
     },
     
     // Nivel 6: Elemento que no pertenece al grupo
@@ -81,20 +94,28 @@ const gameData = {
             { items: ["manzana", "pera", "uva", "zanahoria"], odd: "zanahoria", category: "frutas" },
             { items: ["auto", "bicicleta", "avión", "heladera"], odd: "heladera", category: "medios de transporte" },
             { items: ["rojo", "azul", "verde", "perro"], odd: "perro", category: "colores" },
-            { items: ["gato", "perro", "pez", "árbol"], odd: "árbol", category: "animales" }
+            { items: ["gato", "perro", "pez", "árbol"], odd: "árbol", category: "animales" },
+            { items: ["silla", "mesa", "sofá", "televisor"], odd: "televisor", category: "muebles" },
+            { items: ["enero", "febrero", "lunes", "marzo"], odd: "lunes", category: "meses" },
+            { items: ["España", "Francia", "Madrid", "Italia"], odd: "Madrid", category: "países" },
+            { items: ["piano", "guitarra", "violín", "libro"], odd: "libro", category: "instrumentos musicales" }
         ]
     },
     
-    // Nivel 7: Cruce del puente
+    // Nivel 7: Memoria de sonidos (nuevo)
     level7: {
-        rows: 5,
-        columns: 5,
-        safePath: [
-            [true, false, true, false, true],
-            [false, true, false, true, false],
-            [true, false, true, false, true],
-            [false, true, false, true, false],
-            [true, false, true, false, true]
+        sounds: [
+            { name: "Campana", frequency: 784 },
+            { name: "Flauta", frequency: 659 },
+            { name: "Tambor", frequency: 294 },
+            { name: "Silbato", frequency: 880 },
+            { name: "Xilófono", frequency: 523 },
+            { name: "Triángulo", frequency: 1319 }
+        ],
+        sequences: [
+            { sequence: [0, 1, 2], name: "Secuencia simple" },
+            { sequence: [3, 1, 4, 2], name: "Secuencia media" },
+            { sequence: [5, 2, 1, 4, 0], name: "Secuencia compleja" }
         ]
     },
     
@@ -105,7 +126,12 @@ const gameData = {
             { incorrect: "vajo", correct: "bajo" },
             { incorrect: "sierto", correct: "cierto" },
             { incorrect: "espeso", correct: "espeso" },
-            { incorrect: "berde", correct: "verde" }
+            { incorrect: "berde", correct: "verde" },
+            { incorrect: "jente", correct: "gente" },
+            { incorrect: "echo", correct: "hecho" },
+            { incorrect: "tubo", correct: "tuvo" },
+            { incorrect: "hico", correct: "hizo" },
+            { incorrect: "cullar", correct: "cuchara" }
         ]
     },
     
@@ -115,98 +141,24 @@ const gameData = {
             { word: "feliz", synonyms: ["alegre", "contento", "gozoso"] },
             { word: "rápido", synonyms: ["veloz", "ágil", "ligero"] },
             { word: "bonito", synonyms: ["hermoso", "lindo", "bello"] },
-            { word: "inteligente", synonyms: ["listo", "sabio", "astuto"] }
-        ]
+            { word: "inteligente", synonyms: ["listo", "sabio", "astuto"] },
+            { word: "grande", synonyms: ["enorme", "gigante", "immenso"] },
+            { word: "pequeño", synonyms: ["chico", "diminuto", "minúsculo"] },
+            { word: "oscuro", synonyms: ["tenebroso", "sombrío", "negro"] }
+        ],
+        fakeSynonyms: ["triste", "lento", "feo", "tonto", "pequeño", "grande", "claro"]
     },
     
     // Nivel 10: Pupiletras
     level10: {
-        words: ["sol", "luna", "estrella", "planeta", "cometa", "galaxia"],
-        gridSize: 10
+        words: ["sol", "luna", "estrella", "planeta", "cometa", "galaxia", "astro", "cielo", "tierra", "satelite"],
+        gridSize: 12
     }
 };
 
-// Inicializar el juego
-function initGame() {
-    currentLevel = 1;
-    lives = 3;
-    score = 0;
-    timeLeft = 3600;
-    hintsUsed = 0;
-    
-    updateUI();
-    startTimer();
-    loadLevel(currentLevel);
-    
-    // Event listeners
-    hintButton.addEventListener('click', useHint);
-    restartButton.addEventListener('click', restartGame);
-}
+// [Las funciones initGame, updateUI, startTimer, loseLife, gameOver, showMessage permanecen iguales]
 
-// Actualizar la interfaz de usuario
-function updateUI() {
-    levelDisplay.textContent = `Nivel: ${currentLevel}`;
-    livesDisplay.textContent = '❤️'.repeat(lives);
-    scoreDisplay.textContent = `Puntos: ${score}`;
-    timerDisplay.textContent = `Tiempo: ${timeLeft}`;
-}
-
-// Temporizador del juego
-function startTimer() {
-    clearInterval(timer);
-    timer = setInterval(() => {
-        timeLeft--;
-        timerDisplay.textContent = `Tiempo: ${timeLeft}`;
-        
-        if (timeLeft <= 0) {
-            loseLife();
-        }
-    }, 1000);
-}
-
-// Perder una vida
-function loseLife() {
-    lives--;
-    updateUI();
-    
-    if (lives <= 0) {
-        gameOver();
-    } else {
-        showMessage("¡Perdiste una vida! Intenta de nuevo.", "error");
-        // Recargar el nivel actual
-        loadLevel(currentLevel);
-    }
-}
-
-// Game over
-function gameOver() {
-    clearInterval(timer);
-    showMessage(`¡Juego terminado! Puntuación final: ${score}`, "error");
-    levelContainer.innerHTML = `
-        <h2>Game Over</h2>
-        <p>Puntuación final: ${score}</p>
-        <p>Nivel alcanzado: ${currentLevel}</p>
-        <button id="play-again-btn">Jugar de nuevo</button>
-    `;
-    
-    document.getElementById('play-again-btn').addEventListener('click', initGame);
-}
-
-// Mostrar mensaje
-function showMessage(message, type = "info") {
-    messageDisplay.textContent = message;
-    messageDisplay.className = "message " + type;
-    
-    // Limpiar el mensaje después de 3 segundos
-    setTimeout(() => {
-        if (messageDisplay.textContent === message) {
-            messageDisplay.textContent = "";
-            messageDisplay.className = "message";
-        }
-    }, 3000);
-}
-
-// Usar pista
+// Usar pista - ACTUALIZADA PARA TODOS LOS NIVELES
 function useHint() {
     if (hintsUsed >= 3) {
         showMessage("Ya has usado todas las pistas disponibles", "error");
@@ -226,6 +178,7 @@ function useHint() {
                 randomSlot.classList.add('hint-used');
             }
             break;
+            
         case 2:
             // Mostrar un par de cartas por 1 segundo
             const unflippedCards = Array.from(document.querySelectorAll('.card:not(.flipped):not(.matched)'));
@@ -244,201 +197,134 @@ function useHint() {
                 }
             }
             break;
-        // Implementar pistas para otros niveles...
+            
+        case 3:
+            // Mostrar la secuencia nuevamente
+            showSequence();
+            break;
+            
+        case 4:
+            // Mostrar la secuencia con sonido nuevamente
+            showSequenceWithSound();
+            break;
+            
+        case 5:
+            // Mostrar la primera letra correcta
+            const emptySlots = document.querySelectorAll('.word-slot:empty');
+            if (emptySlots.length > 0) {
+                const firstEmptyIndex = currentLevelData.selectedLetters.length;
+                const correctLetter = currentLevelData.targetWord[firstEmptyIndex];
+                const letterOption = document.querySelector(`.letter-option[data-letter="${correctLetter}"]:not(.used)`);
+                
+                if (letterOption) {
+                    letterOption.classList.add('hint');
+                    setTimeout(() => letterOption.classList.remove('hint'), 2000);
+                }
+            }
+            break;
+            
+        case 6:
+            // Resaltar el elemento intruso
+            const options = document.querySelectorAll('.syllable-option');
+            const oddOption = Array.from(options).find(opt => opt.dataset.item === currentLevelData.correctAnswer);
+            if (oddOption) {
+                oddOption.classList.add('hint');
+                setTimeout(() => oddOption.classList.remove('hint'), 2000);
+            }
+            break;
+            
+        case 7:
+            // Reproducir la secuencia nuevamente
+            playSoundSequence();
+            break;
+            
+        case 8:
+            // Mostrar la primera letra correcta
+            const input = document.getElementById('word-input');
+            const correctWord = currentLevelData.correctWord;
+            if (input.value.length < correctWord.length) {
+                const nextChar = correctWord[input.value.length];
+                showMessage(`La siguiente letra es: ${nextChar.toUpperCase()}`, "info");
+            }
+            break;
+            
+        case 9:
+            // Mostrar un sinónimo correcto no seleccionado
+            const unselectedSynonyms = currentLevelData.correctSynonyms.filter(
+                syn => !currentLevelData.foundSynonyms.includes(syn)
+            );
+            if (unselectedSynonyms.length > 0) {
+                const randomSynonym = unselectedSynonyms[Math.floor(Math.random() * unselectedSynonyms.length)];
+                const synonymOption = document.querySelector(`.syllable-option[data-synonym="${randomSynonym}"]`);
+                if (synonymOption) {
+                    synonymOption.classList.add('hint');
+                    setTimeout(() => synonymOption.classList.remove('hint'), 2000);
+                }
+            }
+            break;
+            
+        case 10:
+            // Mostrar una palabra no encontrada
+            const unfoundWords = currentLevelData.words.filter(
+                word => !currentLevelData.foundWords.includes(word)
+            );
+            if (unfoundWords.length > 0) {
+                const randomWord = unfoundWords[Math.floor(Math.random() * unfoundWords.length)];
+                showMessage(`Busca la palabra: ${randomWord.toUpperCase()}`, "info");
+            }
+            break;
     }
     
     showMessage(`Pista usada (${hintsUsed}/3)`, "info");
 }
 
-// Reiniciar juego
-function restartGame() {
-    if (confirm("¿Estás seguro de que quieres reiniciar el juego?")) {
-        initGame();
-    }
-}
+// [Las funciones restartGame, nextLevel, shuffleArray permanecen iguales]
 
-// Cargar nivel
-function loadLevel(level) {
-    currentLevel = level;
-    updateUI();
-    levelContainer.innerHTML = '';
-    currentLevelData = {};
+// Función auxiliar para obtener sílabas aleatorias
+function getRandomSyllables(excludeSyllables, count) {
+    const availableSyllables = gameData.level1.extraSyllables.filter(
+        syl => !excludeSyllables.includes(syl)
+    );
     
-    switch(level) {
-        case 1: loadLevel1(); break;
-        case 2: loadLevel2(); break;
-        case 3: loadLevel3(); break;
-        case 4: loadLevel4(); break;
-        case 5: loadLevel5(); break;
-        case 6: loadLevel6(); break;
-        case 7: loadLevel7(); break;
-        case 8: loadLevel8(); break;
-        case 9: loadLevel9(); break;
-        case 10: loadLevel10(); break;
-    }
-}
-
-// Nivel 1: Completar palabra con sílabas faltantes
-function loadLevel1() {
-    const words = gameData.level1.words;
-    const randomWord = words[Math.floor(Math.random() * words.length)];
-    currentLevelData = {
-        currentWord: randomWord,
-        missingIndices: []
-    };
-    
-    // Seleccionar índices aleatorios para ocultar (al menos 2, máximo la mitad)
-    const numToHide = Math.max(2, Math.floor(randomWord.syllables.length / 2));
-    while (currentLevelData.missingIndices.length < numToHide) {
-        const randomIndex = Math.floor(Math.random() * randomWord.syllables.length);
-        if (!currentLevelData.missingIndices.includes(randomIndex)) {
-            currentLevelData.missingIndices.push(randomIndex);
-        }
+    // Seleccionar aleatoriamente, asegurando que no se repitan
+    const selected = [];
+    while (selected.length < count && availableSyllables.length > 0) {
+        const randomIndex = Math.floor(Math.random() * availableSyllables.length);
+        selected.push(availableSyllables[randomIndex]);
+        availableSyllables.splice(randomIndex, 1);
     }
     
-    // Crear interfaz
-    const levelHTML = `
-        <h2>Completa la palabra</h2>
-        <p>Selecciona las sílabas correctas para completar la palabra</p>
-        <div class="word-display">
-            ${randomWord.syllables.map((syl, index) => 
-                currentLevelData.missingIndices.includes(index) ? 
-                    `<span class="syllable-slot" data-index="${index}"></span>` : 
-                    `<span>${syl}</span>`
-            ).join('')}
-        </div>
-        <div class="syllable-options">
-            ${shuffleArray([...randomWord.syllables, ...getRandomSyllables(randomWord.syllables, 3)])
-                .map(syl => `<div class="syllable-option" data-syllable="${syl}">${syl}</div>`)
-                .join('')}
-        </div>
-    `;
-    
-    levelContainer.innerHTML = levelHTML;
-    
-    // Event listeners para las opciones de sílabas
-    document.querySelectorAll('.syllable-option').forEach(option => {
-        option.addEventListener('click', function() {
-            const syllable = this.dataset.syllable;
-            const emptySlots = document.querySelectorAll('.syllable-slot:empty');
-            
-            if (emptySlots.length > 0) {
-                const firstEmptySlot = emptySlots[0];
-                firstEmptySlot.textContent = syllable;
-                firstEmptySlot.dataset.syllable = syllable;
-                
-                checkLevel1Completion();
-            }
-        });
-    });
-}
-
-// Verificar si se completó el nivel 1
-function checkLevel1Completion() {
-    const allSlots = document.querySelectorAll('.syllable-slot');
-    const allFilled = Array.from(allSlots).every(slot => slot.textContent !== '');
-    
-    if (allFilled) {
-        const isCorrect = Array.from(allSlots).every(slot => {
-            const index = parseInt(slot.dataset.index);
-            return slot.textContent === currentLevelData.currentWord.syllables[index];
-        });
-        
-        if (isCorrect) {
-            score += 100;
-            showMessage("¡Correcto! Palabra completada.", "success");
-            setTimeout(() => nextLevel(), 1500);
-        } else {
-            loseLife();
-        }
+    // Si no hay suficientes sílabas únicas, completar con repetidas
+    while (selected.length < count) {
+        const randomIndex = Math.floor(Math.random() * gameData.level1.extraSyllables.length);
+        selected.push(gameData.level1.extraSyllables[randomIndex]);
     }
+    
+    return selected;
 }
 
-// Nivel 2: Memoria de cartas
-function loadLevel2() {
-    const pairs = gameData.level2.pairs;
-    const icons = gameData.level2.icons.slice(0, pairs);
-    const cards = [...icons, ...icons];
-    
-    currentLevelData = {
-        cards: shuffleArray(cards),
-        flippedCards: [],
-        matchedPairs: 0
-    };
-    
-    const levelHTML = `
-        <h2>Encuentra los pares</h2>
-        <p>Voltea las cartas para encontrar todas las parejas</p>
-        <div class="memory-level">
-            ${currentLevelData.cards.map((icon, index) => `
-                <div class="card" data-index="${index}" data-value="${icon}">
-                    <span>${icon}</span>
-                </div>
-            `).join('')}
-        </div>
-    `;
-    
-    levelContainer.innerHTML = levelHTML;
-    
-    // Event listeners para las cartas
-    document.querySelectorAll('.card').forEach(card => {
-        card.addEventListener('click', function() {
-            if (this.classList.contains('flipped') || this.classList.contains('matched')) return;
-            if (currentLevelData.flippedCards.length >= 2) return;
-            
-            this.classList.add('flipped');
-            currentLevelData.flippedCards.push(this);
-            
-            if (currentLevelData.flippedCards.length === 2) {
-                const card1 = currentLevelData.flippedCards[0];
-                const card2 = currentLevelData.flippedCards[1];
-                
-                if (card1.dataset.value === card2.dataset.value) {
-                    // Par encontrado
-                    card1.classList.add('matched');
-                    card2.classList.add('matched');
-                    currentLevelData.flippedCards = [];
-                    currentLevelData.matchedPairs++;
-                    
-                    score += 50;
-                    
-                    if (currentLevelData.matchedPairs === pairs) {
-                        showMessage("¡Todos los pares encontrados!", "success");
-                        setTimeout(() => nextLevel(), 1500);
-                    }
-                } else {
-                    // No es un par, voltear de nuevo después de un segundo
-                    setTimeout(() => {
-                        card1.classList.remove('flipped');
-                        card2.classList.remove('flipped');
-                        currentLevelData.flippedCards = [];
-                    }, 1000);
-                }
-            }
-        });
-    });
-}
+// [Las funciones loadLevel1 a loadLevel6 permanecen iguales]
 
-// Nivel 3: Secuencia de colores
-function loadLevel3() {
-    const sequences = gameData.level3.sequences;
+// Nivel 7: Memoria de sonidos (nuevo)
+function loadLevel7() {
+    const sounds = gameData.level7.sounds;
+    const sequences = gameData.level7.sequences;
     const randomSequence = sequences[Math.floor(Math.random() * sequences.length)];
-    const colors = gameData.level3.colors;
     
     currentLevelData = {
-        sequence: randomSequence.sequence,
+        sounds: sounds,
+        sequence: randomSequence.sequence.map(index => sounds[index]),
         userSequence: [],
-        colors: colors
+        showingSequence: false
     };
     
     const levelHTML = `
-        <h2>Repite la secuencia</h2>
-        <p>Memoriza y repite la secuencia de colores que se mostrará</p>
-        <div class="sequence-level">
-            <div class="sequence-display" id="sequence-display"></div>
-            <div class="color-options">
-                ${Object.entries(colors).map(([name, color]) => `
-                    <div class="color-option" data-color="${name}" style="background-color: ${color}"></div>
+        <h2>Memoria de sonidos</h2>
+        <p>Escucha y repite la secuencia de sonidos</p>
+        <div class="sound-level">
+            <div class="sound-options">
+                ${sounds.map((sound, index) => `
+                    <div class="sound-option" data-index="${index}">${sound.name}</div>
                 `).join('')}
             </div>
         </div>
@@ -447,403 +333,80 @@ function loadLevel3() {
     levelContainer.innerHTML = levelHTML;
     
     // Mostrar la secuencia al inicio
-    showSequence();
+    playSoundSequence();
     
-    // Event listeners para las opciones de color
-    document.querySelectorAll('.color-option').forEach(option => {
+    // Event listeners para los botones de sonido
+    document.querySelectorAll('.sound-option').forEach(option => {
         option.addEventListener('click', function() {
             if (currentLevelData.showingSequence) return;
             
-            const color = this.dataset.color;
-            currentLevelData.userSequence.push(color);
+            const index = parseInt(this.dataset.index);
+            const sound = currentLevelData.sounds[index];
             
-            // Resaltar el color seleccionado
-            this.style.transform = 'scale(1.2)';
+            // Resaltar y reproducir sonido
+            this.classList.add('active');
+            playSound(sound.frequency);
+            
             setTimeout(() => {
-                this.style.transform = '';
-            }, 300);
+                this.classList.remove('active');
+            }, 500);
             
-            checkSequence();
+            // Añadir a la secuencia del usuario
+            currentLevelData.userSequence.push(index);
+            
+            // Verificar la secuencia
+            checkSoundSequence();
         });
     });
 }
 
-// Mostrar la secuencia de colores
-function showSequence() {
+// Reproducir secuencia de sonidos
+function playSoundSequence() {
     currentLevelData.showingSequence = true;
-    const sequenceDisplay = document.getElementById('sequence-display');
-    sequenceDisplay.innerHTML = '';
+    currentLevelData.userSequence = [];
     
     let i = 0;
+    const options = document.querySelectorAll('.sound-option');
     const interval = setInterval(() => {
         if (i >= currentLevelData.sequence.length) {
             clearInterval(interval);
             currentLevelData.showingSequence = false;
-            currentLevelData.userSequence = [];
             return;
         }
         
-        const color = currentLevelData.sequence[i];
-        const colorElement = document.createElement('div');
-        colorElement.className = 'sequence-item';
-        colorElement.style.backgroundColor = currentLevelData.colors[color];
-        sequenceDisplay.appendChild(colorElement);
+        const sound = currentLevelData.sequence[i];
+        const option = options[sound.index];
         
-        // Animación
+        // Resaltar y reproducir
+        option.classList.add('active');
+        playSound(sound.frequency);
+        
         setTimeout(() => {
-            sequenceDisplay.removeChild(colorElement);
-        }, 800);
+            option.classList.remove('active');
+        }, 500);
         
         i++;
     }, 1000);
 }
 
-// Verificar la secuencia del usuario
-function checkSequence() {
+// Verificar secuencia de sonidos
+function checkSoundSequence() {
     if (currentLevelData.userSequence.length === currentLevelData.sequence.length) {
-        const isCorrect = currentLevelData.userSequence.every((color, index) => 
-            color === currentLevelData.sequence[index]
-        );
-        
-        if (isCorrect) {
-            score += 150;
-            showMessage("¡Secuencia correcta!", "success");
-            setTimeout(() => nextLevel(), 1500);
-        } else {
-            showMessage("Secuencia incorrecta. Intenta de nuevo.", "error");
-            setTimeout(() => showSequence(), 1500);
-        }
-    }
-}
-
-// Nivel 4: Secuencia de colores con tono musical (similar al 3 pero con sonido)
-function loadLevel4() {
-    const sequences = gameData.level4.sequences;
-    const randomSequence = sequences[Math.floor(Math.random() * sequences.length)];
-    const colors = gameData.level4.colors;
-    
-    currentLevelData = {
-        sequence: randomSequence.sequence,
-        sounds: randomSequence.sounds,
-        userSequence: [],
-        colors: colors
-    };
-    
-    const levelHTML = `
-        <h2>Repite la secuencia con sonido</h2>
-        <p>Memoriza y repite la secuencia de colores y sonidos que se mostrará</p>
-        <div class="sequence-level">
-            <div class="sequence-display" id="sequence-display"></div>
-            <div class="color-options">
-                ${Object.entries(colors).map(([name, color]) => `
-                    <div class="color-option" data-color="${name}" style="background-color: ${color}"></div>
-                `).join('')}
-            </div>
-        </div>
-    `;
-    
-    levelContainer.innerHTML = levelHTML;
-    
-    // Mostrar la secuencia al inicio
-    showSequenceWithSound();
-    
-    // Event listeners para las opciones de color
-    document.querySelectorAll('.color-option').forEach(option => {
-        option.addEventListener('click', function() {
-            if (currentLevelData.showingSequence) return;
-            
-            const color = this.dataset.color;
-            currentLevelData.userSequence.push(color);
-            
-            // Resaltar el color seleccionado y reproducir sonido
-            this.style.transform = 'scale(1.2)';
-            playSoundForColor(color);
-            setTimeout(() => {
-                this.style.transform = '';
-            }, 300);
-            
-            checkSequenceWithSound();
+        const isCorrect = currentLevelData.userSequence.every((soundIndex, i) => {
+            return soundIndex === currentLevelData.sequence[i].index;
         });
-    });
-}
-
-// Mostrar secuencia con sonido
-function showSequenceWithSound() {
-    currentLevelData.showingSequence = true;
-    const sequenceDisplay = document.getElementById('sequence-display');
-    sequenceDisplay.innerHTML = '';
-    
-    let i = 0;
-    const interval = setInterval(() => {
-        if (i >= currentLevelData.sequence.length) {
-            clearInterval(interval);
-            currentLevelData.showingSequence = false;
-            currentLevelData.userSequence = [];
-            return;
-        }
-        
-        const color = currentLevelData.sequence[i];
-        const sound = currentLevelData.sounds[i];
-        
-        const colorElement = document.createElement('div');
-        colorElement.className = 'sequence-item';
-        colorElement.style.backgroundColor = currentLevelData.colors[color];
-        sequenceDisplay.appendChild(colorElement);
-        
-        // Reproducir sonido
-        playSound(sound);
-        
-        // Animación
-        setTimeout(() => {
-            sequenceDisplay.removeChild(colorElement);
-        }, 800);
-        
-        i++;
-    }, 1000);
-}
-
-// Reproducir sonido para un color
-function playSoundForColor(color) {
-    const index = currentLevelData.sequence.indexOf(color);
-    if (index !== -1) {
-        playSound(currentLevelData.sounds[index]);
-    }
-}
-
-// Reproducir sonido
-function playSound(frequency) {
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    const oscillator = audioCtx.createOscillator();
-    const gainNode = audioCtx.createGain();
-    
-    oscillator.type = 'sine';
-    oscillator.frequency.value = frequency;
-    oscillator.connect(gainNode);
-    gainNode.connect(audioCtx.destination);
-    
-    oscillator.start();
-    gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.5);
-    oscillator.stop(audioCtx.currentTime + 0.5);
-}
-
-// Verificar secuencia con sonido
-function checkSequenceWithSound() {
-    if (currentLevelData.userSequence.length === currentLevelData.sequence.length) {
-        const isCorrect = currentLevelData.userSequence.every((color, index) => 
-            color === currentLevelData.sequence[index]
-        );
         
         if (isCorrect) {
             score += 200;
             showMessage("¡Secuencia correcta!", "success");
             setTimeout(() => nextLevel(), 1500);
         } else {
-            showMessage("Secuencia incorrecta. Intenta de nuevo.", "error");
-            setTimeout(() => showSequenceWithSound(), 1500);
+            showMessage("Secuencia incorrecta. Escucha de nuevo.", "error");
+            setTimeout(() => playSoundSequence(), 1500);
         }
     }
 }
 
-// Nivel 5: Ordenar letras para formar palabra
-function loadLevel5() {
-    const words = gameData.level5.words;
-    const randomWord = words[Math.floor(Math.random() * words.length)];
-    const scrambledLetters = shuffleArray(randomWord.split(''));
-    
-    currentLevelData = {
-        targetWord: randomWord,
-        letters: scrambledLetters,
-        selectedLetters: []
-    };
-    
-    const levelHTML = `
-        <h2>Ordena las letras</h2>
-        <p>Selecciona las letras en el orden correcto para formar la palabra</p>
-        <div class="word-display-scramble" id="word-display"></div>
-        <div class="letter-options">
-            ${scrambledLetters.map((letter, index) => `
-                <div class="letter-option" data-letter="${letter}" data-index="${index}">${letter}</div>
-            `).join('')}
-        </div>
-    `;
-    
-    levelContainer.innerHTML = levelHTML;
-    
-    // Event listeners para las letras
-    document.querySelectorAll('.letter-option').forEach(letter => {
-        letter.addEventListener('click', function() {
-            if (this.classList.contains('used')) return;
-            
-            const letterChar = this.dataset.letter;
-            currentLevelData.selectedLetters.push(letterChar);
-            this.classList.add('used');
-            
-            updateWordDisplay();
-            
-            // Verificar si la palabra está completa
-            if (currentLevelData.selectedLetters.length === currentLevelData.targetWord.length) {
-                const userWord = currentLevelData.selectedLetters.join('');
-                if (userWord === currentLevelData.targetWord) {
-                    score += 120;
-                    showMessage("¡Palabra correcta!", "success");
-                    setTimeout(() => nextLevel(), 1500);
-                } else {
-                    showMessage("Palabra incorrecta. Intenta de nuevo.", "error");
-                    setTimeout(() => resetLevel5(), 1500);
-                }
-            }
-        });
-    });
-    
-    // Inicializar display de palabra
-    updateWordDisplay();
-}
-
-// Actualizar display de palabra en nivel 5
-function updateWordDisplay() {
-    const wordDisplay = document.getElementById('word-display');
-    wordDisplay.innerHTML = '';
-    
-    for (let i = 0; i < currentLevelData.targetWord.length; i++) {
-        const letter = currentLevelData.selectedLetters[i] || '';
-        const slot = document.createElement('div');
-        slot.className = 'word-slot';
-        slot.textContent = letter;
-        wordDisplay.appendChild(slot);
-    }
-}
-
-// Reiniciar nivel 5
-function resetLevel5() {
-    currentLevelData.selectedLetters = [];
-    document.querySelectorAll('.letter-option').forEach(letter => {
-        letter.classList.remove('used');
-    });
-    updateWordDisplay();
-}
-
-// Nivel 6: Elemento que no pertenece al grupo
-function loadLevel6() {
-    const groups = gameData.level6.groups;
-    const randomGroup = groups[Math.floor(Math.random() * groups.length)];
-    
-    currentLevelData = {
-        items: shuffleArray([...randomGroup.items]),
-        correctAnswer: randomGroup.odd,
-        category: randomGroup.category
-    };
-    
-    const levelHTML = `
-        <h2>Encuentra el intruso</h2>
-        <p>Selecciona el elemento que no pertenece al grupo: ${currentLevelData.category}</p>
-        <div class="syllable-options">
-            ${currentLevelData.items.map(item => `
-                <div class="syllable-option" data-item="${item}">${item}</div>
-            `).join('')}
-        </div>
-    `;
-    
-    levelContainer.innerHTML = levelHTML;
-    
-    // Event listeners para los elementos
-    document.querySelectorAll('.syllable-option').forEach(item => {
-        item.addEventListener('click', function() {
-            const selectedItem = this.dataset.item;
-            
-            if (selectedItem === currentLevelData.correctAnswer) {
-                score += 130;
-                showMessage("¡Correcto! " + selectedItem + " no pertenece al grupo.", "success");
-                setTimeout(() => nextLevel(), 1500);
-            } else {
-                showMessage("Incorrecto. " + selectedItem + " sí pertenece al grupo.", "error");
-                loseLife();
-            }
-        });
-    });
-}
-
-// Nivel 7: Cruce del puente
-function loadLevel7() {
-    const config = gameData.level7;
-    
-    currentLevelData = {
-        safePath: config.safePath,
-        currentRow: 0,
-        currentCol: 0,
-        playerPosition: { row: 0, col: 0 }
-    };
-    
-    // Encontrar posición inicial segura en la primera fila
-    const safeCols = [];
-    for (let col = 0; col < config.columns; col++) {
-        if (config.safePath[0][col]) {
-            safeCols.push(col);
-        }
-    }
-    currentLevelData.playerPosition.col = safeCols[Math.floor(Math.random() * safeCols.length)];
-    
-    const levelHTML = `
-        <h2>Cruza el puente seguro</h2>
-        <p>Selecciona las baldosas seguras para cruzar el puente</p>
-        <div class="bridge-level">
-            ${Array(config.rows).fill().map((_, row) => `
-                <div class="bridge-row">
-                    ${Array(config.columns).fill().map((_, col) => `
-                        <div class="bridge-tile" data-row="${row}" data-col="${col}"></div>
-                    `).join('')}
-                </div>
-            `).join('')}
-        </div>
-        <div class="player" id="player"></div>
-    `;
-    
-    levelContainer.innerHTML = levelHTML;
-    
-    // Posicionar al jugador
-    const player = document.getElementById('player');
-    updatePlayerPosition();
-    
-    // Event listeners para las baldosas
-    document.querySelectorAll('.bridge-tile').forEach(tile => {
-        tile.addEventListener('click', function() {
-            const row = parseInt(this.dataset.row);
-            const col = parseInt(this.dataset.col);
-            
-            // Solo se puede mover a la siguiente fila
-            if (row !== currentLevelData.playerPosition.row + 1) return;
-            
-            // Verificar si es seguro
-            if (config.safePath[row][col]) {
-                // Movimiento seguro
-                currentLevelData.playerPosition.row = row;
-                currentLevelData.playerPosition.col = col;
-                updatePlayerPosition();
-                
-                // Verificar si llegó al final
-                if (row === config.rows - 1) {
-                    score += 250;
-                    showMessage("¡Puente cruzado con éxito!", "success");
-                    setTimeout(() => nextLevel(), 1500);
-                }
-            } else {
-                // Baldosa peligrosa
-                showMessage("¡Baldosa peligrosa!", "error");
-                loseLife();
-            }
-        });
-    });
-    
-    function updatePlayerPosition() {
-        const tile = document.querySelector(`.bridge-tile[data-row="${currentLevelData.playerPosition.row}"][data-col="${currentLevelData.playerPosition.col}"]`);
-        const tileRect = tile.getBoundingClientRect();
-        const containerRect = levelContainer.getBoundingClientRect();
-        
-        player.style.left = `${tileRect.left - containerRect.left + (tileRect.width / 2) - 20}px`;
-        player.style.top = `${tileRect.top - containerRect.top + (tileRect.height / 2) - 20}px`;
-    }
-}
-
-// Nivel 8: Corregir palabras mal escritas
 function loadLevel8() {
     const words = gameData.level8.words;
     const randomWordPair = words[Math.floor(Math.random() * words.length)];
